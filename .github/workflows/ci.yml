@@ -68,6 +68,10 @@ jobs:
         run: bash scripts/dev/sync-version.sh --check
       - name: Manifest promotion invariant
         run: bash scripts/dev/check-manifest.sh
+      - name: Skill and agent frontmatter
+        # A hard gate: `claude plugin validate` below is continue-on-error, so
+        # a malformed header shipped silently (skills/grilling, 2026-08-20).
+        run: bash scripts/dev/check-frontmatter.sh
 
   validate-plugin:
     name: claude plugin validate (best effort)
