@@ -1,0 +1,5 @@
+# This repo (the plugin itself)
+.DS_Store
+node_modules/
+tests/tmp/
+*.log
