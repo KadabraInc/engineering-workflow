@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # json.sh — JSON access without a hard dependency on any single runtime.
 # Resolution order: jq -> node -> python3. If none exists, JSON_RUNTIME stays
 # empty and callers must fail OPEN (a bricked editor is worse than a soft gate);

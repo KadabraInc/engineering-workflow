@@ -71,8 +71,9 @@ if [ -f "$INV" ]; then
         return 0
       fi
     fi
-    local line="- $current_id: $(sanitize "$current_rule") [scope: $(sanitize "$current_scope")]"
-    local len=${#line}
+    local line len
+    line="- $current_id: $(sanitize "$current_rule") [scope: $(sanitize "$current_scope")]"
+    len=${#line}
     if [ $((USED + len)) -le $BUDGET ]; then
       emit "$line"
       USED=$((USED + len))

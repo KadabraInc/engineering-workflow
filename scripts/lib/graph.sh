@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # graph.sh — hardened wrapper around the optional code-review-graph CLI.
 #
 # Findings that shaped this file (adversarial review F6): the tool is young

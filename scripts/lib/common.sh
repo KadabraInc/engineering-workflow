@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # common.sh — shared helpers for all team-plugin hook checks and scripts.
 # Bash + coreutils only; JSON access via json.sh's runtime shim.
 #
