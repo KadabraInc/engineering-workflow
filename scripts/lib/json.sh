@@ -26,7 +26,9 @@ json_get() {
   [ -f "$file" ] || { printf '%s' "$default"; return 0; }
   case "$JSON_RUNTIME" in
     jq)
-      out=$(jq -r "(${path}) // empty | if type == \"object\" or type == \"array\" then tojson else tostring end" "$file" 2>/dev/null) || out=""
+      # NB: never use '// empty' here — jq's alternative operator treats a
+      # legitimate boolean false as missing (real bug caught by the suite).
+      out=$(jq -r "${path} | if . == null then empty else (if type == \"object\" or type == \"array\" then tojson else tostring end) end" "$file" 2>/dev/null) || out=""
       ;;
     node)
       out=$(node -e '
