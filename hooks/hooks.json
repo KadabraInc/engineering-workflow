@@ -1,0 +1,70 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "timeout": 15,
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/hooks/dispatch.sh\" session-start"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "timeout": 10,
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/hooks/dispatch.sh\" pre-edit"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "timeout": 10,
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/hooks/dispatch.sh\" pre-bash"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "timeout": 10,
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/hooks/dispatch.sh\" post-edit"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "timeout": 15,
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/hooks/dispatch.sh\" post-bash"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "timeout": 60,
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/hooks/dispatch.sh\" stop"
+          }
+        ]
+      }
+    ]
+  }
+}

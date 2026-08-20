@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "stack": "nextjs",
+  "test": {
+    "command": "__TEST_CMD__",
+    "targeted_command": "__TARGETED_CMD__",
+    "match": "vitest|jest|playwright|npm (run )?test|pnpm (run )?test|yarn test",
+    "fail_patterns": ["[1-9][0-9]* fail(ed|ing)", "FAILURES?!"],
+    "fail_count_pattern": "[0-9]+ fail(ed|ing)"
+  },
+  "globs": {
+    "source": ["app/**", "pages/**", "components/**", "lib/**", "src/**", "server/**", "middleware.*"],
+    "test": ["test/**", "tests/**", "e2e/**", "**/*.test.*", "**/*.spec.*", "**/__tests__/**"],
+    "exempt": ["**/*.md", "docs/**", ".claude/**", ".github/**", "**/*.yml", "**/*.yaml",
+               "**/*.json", "**/*.lock", "package-lock.json", "pnpm-lock.yaml", "yarn.lock",
+               ".next/**", "dist/**", "build/**", "coverage/**", "public/**",
+               "**/*.css", "**/*.scss", "**/*.module.css", "styles/**"],
+    "protected": ["vitest.config.*", "jest.config.*", "playwright.config.*", "tsconfig.json",
+                  ".eslintrc*", "eslint.config.*", "next.config.*"]
+  },
+  "tdd": {
+    "enabled": true,
+    "default_class": "source",
+    "staleness_minutes": 240,
+    "green_edit_budget": 5,
+    "refactor_budget": 25
+  },
+  "hooks": { "enabled": true, "ambient_profile": "standard", "pipeline_profile": "strict" },
+  "delivery": { "min_source_files": 3, "retry_failed": 0 },
+  "knowledge": { "dir": ".claude/knowledge" },
+  "search_exclude": [".claude/team/artifacts/**", ".claude/knowledge/lessons/**", ".code-review-graph/**", ".next/**"],
+  "branch_prefix": "team/",
+  "graph": { "enabled": true }
+}

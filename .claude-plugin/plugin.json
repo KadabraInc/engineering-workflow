@@ -1,0 +1,12 @@
+{
+  "name": "team",
+  "version": "0.1.0",
+  "description": "Virtual engineering team: spec and plan with a human approval gate, then autonomous TDD-gated implement, QA, and two-axis review. Hard red-green-refactor enforcement via deterministic hooks, a committed per-project knowledge base (invariants with the incidents that bought them), and optional code-review-graph integration. Stack-agnostic: Laravel, Symfony, Node, TypeScript, Next.js, Python, Go, Rust and more via per-project config.",
+  "author": {
+    "name": "Kadabra Inc",
+    "url": "https://github.com/KadabraInc"
+  },
+  "homepage": "https://github.com/KadabraInc/engineering-workflow",
+  "license": "MIT",
+  "hooks": "./hooks/hooks.json"
+}

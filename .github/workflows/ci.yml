@@ -1,0 +1,82 @@
+# CI for the team plugin repo itself.
+# The enforcement machinery is plain bash tested with bats; jobs are cheap and
+# every one of them exists because a class of regression is otherwise silent:
+# a bad hooks.json ships a no-op gate to every consuming project at once.
+name: ci
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  json:
+    name: JSON validity and cross-checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: All JSON files parse
+        run: |
+          set -e
+          find . -name '*.json' -not -path './node_modules/*' -print0 |
+            while IFS= read -r -d '' f; do
+              jq -e . "$f" >/dev/null || { echo "invalid JSON: $f"; exit 1; }
+            done
+      - name: Registry cross-checks
+        run: |
+          set -e
+          # every registry script exists
+          jq -r '.checks[][].script' hooks/registry.json | sort -u |
+            while read -r s; do
+              test -f "scripts/hooks/$s" || { echo "missing check script: $s"; exit 1; }
+            done
+          # check ids unique
+          dup=$(jq -r '.checks[][].id' hooks/registry.json | sort | uniq -d)
+          test -z "$dup" || { echo "duplicate check ids: $dup"; exit 1; }
+          # every hooks.json event key has a registry section
+          for ev in $(grep -o 'dispatch.sh" [a-z-]*' hooks/hooks.json | awk '{print $2}' | sort -u); do
+            jq -e --arg ev "$ev" '.checks[$ev]' hooks/registry.json >/dev/null ||
+              { echo "hooks.json event '$ev' missing from registry"; exit 1; }
+          done
+
+  shell:
+    name: shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: shellcheck
+        run: |
+          sudo apt-get update -q && sudo apt-get install -y -q shellcheck
+          find scripts -name '*.sh' -print0 | xargs -0 shellcheck --severity=warning
+
+  bats:
+    name: bats test suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install bats
+        run: sudo npm install -g bats
+      - name: Run suite
+        run: bats tests/
+
+  consistency:
+    name: version sync and manifest promotion
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Version sync
+        run: bash scripts/dev/sync-version.sh --check
+      - name: Manifest promotion invariant
+        run: bash scripts/dev/check-manifest.sh
+
+  validate-plugin:
+    name: claude plugin validate (best effort)
+    runs-on: ubuntu-latest
+    continue-on-error: true # command availability is version-dependent; JSON job is the hard gate
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude plugin validate . --strict || claude plugin validate . || {
+            echo "claude plugin validate unavailable or failed (non-blocking)"; exit 1; }

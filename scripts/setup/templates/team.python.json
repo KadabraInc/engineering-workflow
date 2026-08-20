@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "stack": "python",
+  "test": {
+    "command": "pytest",
+    "targeted_command": "pytest -k {pattern}",
+    "match": "pytest|python -m pytest|tox",
+    "fail_patterns": ["[1-9][0-9]* failed", "ERRORS?", "FAILED"],
+    "fail_count_pattern": "[0-9]+ failed"
+  },
+  "globs": {
+    "source": ["src/**", "app/**", "**/*.py"],
+    "test": ["tests/**", "test/**", "**/test_*.py", "**/*_test.py", "**/conftest.py"],
+    "exempt": ["**/*.md", "docs/**", ".claude/**", ".github/**", "**/*.yml", "**/*.yaml",
+               "**/migrations/**", "**/*.ipynb", "notebooks/**", "**/*.lock", "**/*.toml",
+               "**/*.cfg", "**/*.ini", ".venv/**", "venv/**"],
+    "protected": ["pytest.ini", "tox.ini", "setup.cfg", ".flake8", "ruff.toml", ".ruff.toml"]
+  },
+  "tdd": {
+    "enabled": true,
+    "default_class": "source",
+    "staleness_minutes": 240,
+    "green_edit_budget": 5,
+    "refactor_budget": 25
+  },
+  "hooks": { "enabled": true, "ambient_profile": "standard", "pipeline_profile": "strict" },
+  "delivery": { "min_source_files": 3, "retry_failed": 0 },
+  "knowledge": { "dir": ".claude/knowledge" },
+  "search_exclude": [".claude/team/artifacts/**", ".claude/knowledge/lessons/**", ".code-review-graph/**", ".venv/**"],
+  "branch_prefix": "team/",
+  "graph": { "enabled": true }
+}

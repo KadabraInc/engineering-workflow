@@ -1,0 +1,65 @@
+{
+  "profiles": ["minimal", "standard", "strict"],
+  "checks": {
+    "pre-edit": [
+      {
+        "id": "config-protection",
+        "description": "Deny edits to test/lint configs, team.json, TDD state, settings and hook files (prevents passing by weakening the gate)",
+        "script": "checks/config-protection.sh",
+        "mode": { "minimal": "warn", "standard": "block", "strict": "block" }
+      },
+      {
+        "id": "tdd-gate",
+        "description": "Red-green-refactor gate on source files, driven by verified test-run state",
+        "script": "checks/tdd-gate.sh",
+        "mode": { "minimal": "off", "standard": "warn", "strict": "block" }
+      }
+    ],
+    "pre-bash": [
+      {
+        "id": "bash-write-guard",
+        "description": "Flag shell writes (redirects, sed -i, tee, mv/cp, touch of override files) into gated or protected paths",
+        "script": "checks/bash-write-guard.sh",
+        "mode": { "minimal": "off", "standard": "warn", "strict": "block" }
+      }
+    ],
+    "post-edit": [
+      {
+        "id": "edit-counter",
+        "description": "Append source/test edit events to the counter logs (consumed by gate budgets and delivery accounting)",
+        "script": "checks/edit-counter.sh",
+        "mode": { "minimal": "on", "standard": "on", "strict": "on" }
+      },
+      {
+        "id": "graph-update",
+        "description": "Fire-and-forget incremental code-review-graph update, circuit-broken on repeated failure",
+        "script": "checks/graph-update.sh",
+        "mode": { "minimal": "off", "standard": "on", "strict": "on" }
+      }
+    ],
+    "post-bash": [
+      {
+        "id": "test-run-observer",
+        "description": "Derive TDD state from observed test runs: confident failure sets red; only the wrapper sets green",
+        "script": "checks/test-run-observer.sh",
+        "mode": { "minimal": "on", "standard": "on", "strict": "on" }
+      }
+    ],
+    "session-start": [
+      {
+        "id": "session-context",
+        "description": "Record session baseline (SHA, dirty files) and inject sanitized invariants, TDD/gate status, and version warnings",
+        "script": "checks/session-context.sh",
+        "mode": { "minimal": "on", "standard": "on", "strict": "on" }
+      }
+    ],
+    "stop": [
+      {
+        "id": "delivery-gate",
+        "description": "Deterministic completion checks scoped to terminal pipeline phases; heuristics warn only",
+        "script": "checks/delivery-gate.sh",
+        "mode": { "minimal": "off", "standard": "warn", "strict": "block" }
+      }
+    ]
+  }
+}

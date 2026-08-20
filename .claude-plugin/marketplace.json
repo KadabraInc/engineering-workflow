@@ -1,0 +1,19 @@
+{
+  "name": "engineering-workflow",
+  "owner": {
+    "name": "Kadabra Inc",
+    "url": "https://github.com/KadabraInc"
+  },
+  "metadata": {
+    "description": "Kadabra engineering-workflow marketplace: the `team` virtual engineering team plugin",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "team",
+      "source": "./",
+      "description": "Virtual engineering team with a hard TDD gate, approval-gated planning, two-axis review, and a committed per-project knowledge base.",
+      "category": "workflow"
+    }
+  ]
+}

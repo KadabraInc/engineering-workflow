@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "stack": "php",
+  "test": {
+    "command": "./vendor/bin/phpunit",
+    "targeted_command": "./vendor/bin/phpunit --filter {pattern}",
+    "match": "phpunit|pest",
+    "fail_patterns": ["FAILURES?!", "Failures: [1-9][0-9]*", "[1-9][0-9]* failed"],
+    "fail_count_pattern": "([0-9]+ failed|Failures: [0-9]+)"
+  },
+  "globs": {
+    "source": ["src/**", "app/**", "lib/**", "includes/**", "**/*.php"],
+    "test": ["tests/**", "test/**"],
+    "exempt": ["**/*.md", "docs/**", ".claude/**", ".github/**", "**/*.yml", "**/*.yaml",
+               "composer.lock", "vendor/**", "**/*.css", "assets/**"],
+    "protected": ["phpunit.xml", "phpunit.xml.dist", ".php-cs-fixer*"]
+  },
+  "tdd": {
+    "enabled": true,
+    "default_class": "source",
+    "staleness_minutes": 240,
+    "green_edit_budget": 5,
+    "refactor_budget": 25
+  },
+  "hooks": { "enabled": true, "ambient_profile": "standard", "pipeline_profile": "strict" },
+  "delivery": { "min_source_files": 3, "retry_failed": 0 },
+  "knowledge": { "dir": ".claude/knowledge" },
+  "search_exclude": [".claude/team/artifacts/**", ".claude/knowledge/lessons/**", ".code-review-graph/**", "vendor/**"],
+  "branch_prefix": "team/",
+  "graph": { "enabled": true }
+}
