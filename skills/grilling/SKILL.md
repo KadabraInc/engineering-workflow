@@ -1,6 +1,6 @@
 ---
 name: grilling
-description: The team's interview primitive — align with the user before work by asking question frontiers in rounds, each question numbered with a recommended answer. Use whenever requirements, scope, or a design choice need human decisions: the interview phase of a feature, an ambiguous bug report, a setup with unknown commands.
+description: "The team's interview primitive — align with the user before work by asking question frontiers in rounds, each question numbered with a recommended answer. Use whenever requirements, scope, or a design choice need human decisions: the interview phase of a feature, an ambiguous bug report, a setup with unknown commands."
 ---
 
 # Grilling — the interview primitive
