@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "stack": "rust",
+  "test": {
+    "command": "cargo test",
+    "targeted_command": "cargo test {pattern}",
+    "match": "cargo test",
+    "fail_patterns": ["[1-9][0-9]* failed", "FAILED"],
+    "fail_count_pattern": "[0-9]+ failed"
+  },
+  "globs": {
+    "source": ["src/**", "crates/**"],
+    "test": ["tests/**", "benches/**"],
+    "exempt": ["**/*.md", "docs/**", ".claude/**", ".github/**", "**/*.yml", "**/*.yaml",
+               "Cargo.lock", "target/**"],
+    "protected": ["rustfmt.toml", ".rustfmt.toml", "clippy.toml"]
+  },
+  "tdd": {
+    "enabled": true,
+    "default_class": "source",
+    "staleness_minutes": 240,
+    "green_edit_budget": 8,
+    "refactor_budget": 25
+  },
+  "hooks": { "enabled": true, "ambient_profile": "standard", "pipeline_profile": "strict" },
+  "delivery": { "min_source_files": 3, "retry_failed": 0 },
+  "knowledge": { "dir": ".claude/knowledge" },
+  "search_exclude": [".claude/team/artifacts/**", ".claude/knowledge/lessons/**", ".code-review-graph/**", "target/**"],
+  "branch_prefix": "team/",
+  "graph": { "enabled": true },
+  "_note": "Rust inline #[cfg(test)] unit tests live in src/, which the gate classes as source. Under an unarmed gate, write failing tests in tests/ (integration) first, or run a targeted red before touching src. Documented in the plugin README's Known Limitations."
+}

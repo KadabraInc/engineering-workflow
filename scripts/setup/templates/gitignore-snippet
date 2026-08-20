@@ -1,0 +1,9 @@
+# team:begin (managed by the team plugin — do not edit inside this block)
+.claude/tdd/*
+!.claude/tdd/run-tests
+.claude/team/audit.log*
+.claude/team/session-*.json
+.claude/team/graph-failures
+.claude/team/active-task
+.code-review-graph/
+# team:end

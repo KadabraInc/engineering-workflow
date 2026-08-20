@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "stack": "generic",
+  "test": {
+    "command": "",
+    "targeted_command": "",
+    "match": "",
+    "fail_patterns": [],
+    "fail_count_pattern": "",
+    "_TODO": "No test runner detected. Fill test.command (full suite), test.targeted_command (single test, {pattern} placeholder), test.match (regex recognizing test invocations), and the fail patterns. Until test.command is set the TDD gate is UNARMED and says so at every session start."
+  },
+  "globs": {
+    "source": ["src/**", "lib/**", "app/**"],
+    "test": ["test/**", "tests/**"],
+    "exempt": ["**/*.md", "docs/**", ".claude/**", ".github/**", "**/*.yml", "**/*.yaml", "**/*.json"],
+    "protected": []
+  },
+  "tdd": {
+    "enabled": true,
+    "default_class": "source",
+    "staleness_minutes": 240,
+    "green_edit_budget": 5,
+    "refactor_budget": 25
+  },
+  "hooks": { "enabled": true, "ambient_profile": "standard", "pipeline_profile": "strict" },
+  "delivery": { "min_source_files": 3, "retry_failed": 0 },
+  "knowledge": { "dir": ".claude/knowledge" },
+  "search_exclude": [".claude/team/artifacts/**", ".claude/knowledge/lessons/**", ".code-review-graph/**"],
+  "branch_prefix": "team/",
+  "graph": { "enabled": true }
+}
